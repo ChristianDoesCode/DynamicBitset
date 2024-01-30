@@ -56,11 +56,14 @@ void DynamicBitset::zeroOutArray()
 void DynamicBitset::zeroUpTo(unsigned int bitIndex)
 {
 	unsigned int subArrayLength = (unsigned int)(bitIndex / 8);
-
+	unsigned int bitMask =  
+	
 	for(int i = 0; i < subArrayLength; i++)
 	{
 		this->array[i] = 0;
 	}
+
+	
 }
 
 DynamicBitset& DynamicBitset::operator++()
