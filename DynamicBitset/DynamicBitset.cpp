@@ -45,6 +45,24 @@ void DynamicBitset::addByte(unsigned char byte)
 	this->bitLength += 8;
 }
 
+void DynamicBitset::zeroOutArray()
+{
+	for(int i = 0; i < this->arrayLength; i++)
+	{
+		this->array[i] = 0;
+	}
+}
+
+void DynamicBitset::zeroUpTo(unsigned int bitIndex)
+{
+	unsigned int subArrayLength = (unsigned int)(bitIndex / 8);
+
+	for(int i = 0; i < subArrayLength; i++)
+	{
+		this->array[i] = 0;
+	}
+}
+
 DynamicBitset& DynamicBitset::operator++()
 {
 	int byteCount = 0;
@@ -52,7 +70,9 @@ DynamicBitset& DynamicBitset::operator++()
 	{
 		if ((int)(i / 8) > this->arrayLength)
 		{
-			break;
+			this->zeroOutArray();
+			this->addByte(1);
+			return *this;
 		}
 		if (i % 8 == 0)
 		{
