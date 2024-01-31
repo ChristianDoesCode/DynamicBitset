@@ -18,6 +18,8 @@ public:
 
 	//function to add a byte to the bitset
 	void addByte(unsigned char byte);
+	void zeroOutArray();
+	void zeroUpTo(unsigned int bitIndex);
 	DynamicBitset& operator++();
 	DynamicBitset operator++(int);
 

@@ -71,22 +71,22 @@ void DynamicBitset::zeroUpTo(unsigned int bitIndex)
 	
 }
 
-DynamicBitset& DynamicBitset::operator++()
+DynamicBitset DynamicBitset::operator++(int)
 {
 	unsigned int byteCount = 0;
 	unsigned int bitIndex = 0;
 	
-	while((this->array[byteCount] >> shiftAmount & 1) != 0)
+	while((this->array[byteCount] >> bitIndex & 1) != 0)
   	{
-		if ((unsigned int)(shiftAmount / 8) > this->arrayLength)
+		if ((unsigned int)(bitIndex / 8) > this->arrayLength)
 		{
 			this->zeroOutArray();
 			this->addByte(1);
 			return *this;
 		}
-		if (i % 8 == 0)
+		if (bitIndex % 8 == 0)
 		{
-			byteCount = i / 8;
+			byteCount = bitIndex / 8;
 		}
 		bitIndex++;
 	}
@@ -97,20 +97,25 @@ DynamicBitset& DynamicBitset::operator++()
 
 	this->zeroUpTo(bitIndex);
 
+	std::cout << (powerMask << lastCharBitIndex) << std::endl;
+	std::cout << (int) this->array[subArrayLength] << std::endl;
+
 	this->array[subArrayLength] += (powerMask << lastCharBitIndex);
 
 	return *this;
 }
 
-DynamicBitset DynamicBitset::operator++(int)
+DynamicBitset& DynamicBitset::operator++()
 {
 	return *this;
 }
 
 void DynamicBitset::printArray()
 {
+	std::cout << this->array[1] << std::endl;
+
 	for (int i = 0; i < this->arrayLength; i++)
 	{
-		std::cout << this->array[i] << ", ";
+		std::cout << (int) this->array[i] << ", ";
 	}
 }
