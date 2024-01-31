@@ -56,22 +56,29 @@ void DynamicBitset::zeroOutArray()
 void DynamicBitset::zeroUpTo(unsigned int bitIndex)
 {
 	unsigned int subArrayLength = (unsigned int)(bitIndex / 8);
-	unsigned int bitMask =  
+	unsigned int lastCharBitIndex = bitIndex - (subArrayLength * 8);
+	unsigned char powerMask = 1;
+  	unsigned char bitMask = (powerMask << lastCharBitIndex) - 1;
+
+  	bitMask = ~bitMask;
+
+  	this->array[subArrayLength] &= bitMask;
 	
 	for(int i = 0; i < subArrayLength; i++)
 	{
 		this->array[i] = 0;
 	}
-
 	
 }
 
 DynamicBitset& DynamicBitset::operator++()
 {
-	int byteCount = 0;
-	for(int i = 0; (this->array[byteCount] << i & 1) != 0; i++)
-	{
-		if ((int)(i / 8) > this->arrayLength)
+	unsigned int byteCount = 0;
+	unsigned int bitIndex = 0;
+	
+	while((this->array[byteCount] >> shiftAmount & 1) != 0)
+  	{
+		if ((unsigned int)(shiftAmount / 8) > this->arrayLength)
 		{
 			this->zeroOutArray();
 			this->addByte(1);
@@ -81,9 +88,17 @@ DynamicBitset& DynamicBitset::operator++()
 		{
 			byteCount = i / 8;
 		}
+		bitIndex++;
 	}
 
-	this->array[this->arrayLength - 1] += 1;
+	unsigned int subArrayLength = (unsigned int)(bitIndex / 8);
+	unsigned int lastCharBitIndex = bitIndex - (subArrayLength * 8);
+	unsigned char powerMask = 1;
+
+	this->zeroUpTo(bitIndex);
+
+	this->array[subArrayLength] += (powerMask << lastCharBitIndex);
+
 	return *this;
 }
 
