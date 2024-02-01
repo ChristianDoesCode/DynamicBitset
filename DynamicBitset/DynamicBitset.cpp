@@ -85,17 +85,17 @@ void DynamicBitset::operator++(int)
 		bitIndex++;
 	}
 
-	if ((unsigned int)(bitIndex / 8) >= this->arrayLength - 1)
+	unsigned int subArrayLength = (unsigned int)(bitIndex / 8);
+	unsigned int lastCharBitIndex = bitIndex - (subArrayLength * 8);
+	unsigned char powerMask = 1;
+
+	if (((unsigned int)(bitIndex / 8) >= this->arrayLength - 1) && lastCharBitIndex == 7)
 	{
 		this->zeroOutArray();
 		std::cout << "This Ran!" << std::endl;
 		this->addByte(1);
 		return;
 	}
-
-	unsigned int subArrayLength = (unsigned int)(bitIndex / 8);
-	unsigned int lastCharBitIndex = bitIndex - (subArrayLength * 8);
-	unsigned char powerMask = 1;
 
 	this->zeroUpTo(bitIndex);
 
