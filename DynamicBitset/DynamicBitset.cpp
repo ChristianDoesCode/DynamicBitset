@@ -107,11 +107,14 @@ void DynamicBitset::operator++(int)
 }
 
 /*
-DynamicBitset& DynamicBitset::operator++()
+DynamicBitset DynamicBitset::operator++(int)
 {
-	return *this;
+	DynamicBitset tmp(*this);
+	++(*this);
+	return tmp;
 }
 */
+
 
 bool DynamicBitset::operator[](unsigned int bitIndex)
 {

@@ -21,6 +21,7 @@ public:
 	void zeroOutArray();
 	void zeroUpTo(unsigned int bitIndex);
 	void operator++(int);
+	//DynamicBitset operator++(int);
 
 	bool operator[](unsigned int index);
 

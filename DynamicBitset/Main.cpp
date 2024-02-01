@@ -13,6 +13,7 @@ int main()
 
 	bitset++;
 	bitset++;
+	bitset++;
 	//bool bit = bitset[0];
 
 	//std::cout << bit << std::endl;
