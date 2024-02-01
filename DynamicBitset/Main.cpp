@@ -8,8 +8,10 @@ int main()
     unsigned char count = 255;
 
     bitset.addByte(count);
-	count = 254;
+	//count = 255;
 	bitset.addByte(count);
+
+	bitset++;
 	bitset++;
 	//bool bit = bitset[0];
 
