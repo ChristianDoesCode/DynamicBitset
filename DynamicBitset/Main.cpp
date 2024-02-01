@@ -5,10 +5,15 @@ int main()
 {
 	DynamicBitset bitset;
 
-    unsigned char count = 97;
+    unsigned char count = 255;
 
     bitset.addByte(count);
+	count = 254;
+	bitset.addByte(count);
 	bitset++;
+	//bool bit = bitset[0];
+
+	//std::cout << bit << std::endl;
 
 	bitset.printArray();
 

@@ -38,8 +38,8 @@ void DynamicBitset::addByte(unsigned char byte)
 {
 	unsigned char* tempArray = new unsigned char[this->arrayLength + 1];
 	memcpy(tempArray, this->array, this->arrayLength);
-	delete[] this->array;
 	tempArray[this->arrayLength] = byte;
+	delete[] this->array;
 	this->array = tempArray;
 	this->arrayLength++;
 	this->bitLength += 8;
@@ -71,24 +71,26 @@ void DynamicBitset::zeroUpTo(unsigned int bitIndex)
 	
 }
 
-DynamicBitset DynamicBitset::operator++(int)
+void DynamicBitset::operator++(int)
 {
 	unsigned int byteCount = 0;
 	unsigned int bitIndex = 0;
-	
-	while((this->array[byteCount] >> bitIndex & 1) != 0)
-  	{
-		if ((unsigned int)(bitIndex / 8) > this->arrayLength)
-		{
-			this->zeroOutArray();
-			this->addByte(1);
-			return *this;
-		}
+
+	while ((this->array[byteCount] >> bitIndex & 1) != 0)
+	{
 		if (bitIndex % 8 == 0)
 		{
 			byteCount = bitIndex / 8;
 		}
 		bitIndex++;
+	}
+
+	if ((unsigned int)(bitIndex / 8) >= this->arrayLength - 1)
+	{
+		this->zeroOutArray();
+		std::cout << "This Ran!" << std::endl;
+		this->addByte(1);
+		return;
 	}
 
 	unsigned int subArrayLength = (unsigned int)(bitIndex / 8);
@@ -97,23 +99,30 @@ DynamicBitset DynamicBitset::operator++(int)
 
 	this->zeroUpTo(bitIndex);
 
-	std::cout << (powerMask << lastCharBitIndex) << std::endl;
-	std::cout << (int) this->array[subArrayLength] << std::endl;
-
 	this->array[subArrayLength] += (powerMask << lastCharBitIndex);
-
-	return *this;
 }
 
+/*
 DynamicBitset& DynamicBitset::operator++()
 {
 	return *this;
 }
+*/
+
+bool DynamicBitset::operator[](unsigned int bitIndex)
+{
+	unsigned int arrayIndex = (unsigned int)(bitIndex / 8);
+	unsigned int shiftAmount = bitIndex - (arrayIndex) * 8;
+	if (arrayIndex >= this->arrayLength)
+	{
+		std::cout << "Index out of bounds at line 114 in DynamicBitset.cpp" << std::endl;
+		exit(0);
+	}
+	return (bool)((this->array[arrayIndex] >> shiftAmount) & 1);
+}
 
 void DynamicBitset::printArray()
 {
-	std::cout << this->array[1] << std::endl;
-
 	for (int i = 0; i < this->arrayLength; i++)
 	{
 		std::cout << (int) this->array[i] << ", ";

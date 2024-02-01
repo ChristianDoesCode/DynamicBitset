@@ -20,8 +20,9 @@ public:
 	void addByte(unsigned char byte);
 	void zeroOutArray();
 	void zeroUpTo(unsigned int bitIndex);
-	DynamicBitset& operator++();
-	DynamicBitset operator++(int);
+	void operator++(int);
+
+	bool operator[](unsigned int index);
 
 	void printArray();
 };
