@@ -1,13 +1,13 @@
 #include "DynamicBitset.h"
 
-DynamicBitset::DynamicBitset()
+cpStdLib::DynamicBitset::DynamicBitset()
 {
 		this->array = nullptr;
 		this->arrayLength = 0;
 		this->bitLength = 0;
 }
 
-DynamicBitset::DynamicBitset(unsigned int bitLength)
+cpStdLib::DynamicBitset::DynamicBitset(unsigned int bitLength)
 {
 	if (bitLength % 8 == 0)
 	{
@@ -24,7 +24,7 @@ DynamicBitset::DynamicBitset(unsigned int bitLength)
 	}
 }
 
-DynamicBitset::DynamicBitset(DynamicBitset& originalBitset)
+cpStdLib::DynamicBitset::DynamicBitset(DynamicBitset& originalBitset)
 {
 	delete[] this->array;
 
@@ -42,22 +42,22 @@ DynamicBitset::DynamicBitset(DynamicBitset& originalBitset)
 	}
 }
 
-DynamicBitset::~DynamicBitset()
+cpStdLib::DynamicBitset::~DynamicBitset()
 {
 	delete[] this->array;
 }
 
-unsigned int DynamicBitset::getArrayLength()
+unsigned int cpStdLib::DynamicBitset::getArrayLength()
 {
 	return this->arrayLength;
 }
 
-unsigned char** DynamicBitset::getArray()
+unsigned char** cpStdLib::DynamicBitset::getArray()
 {
 	
 }
 
-void DynamicBitset::addByte(unsigned char byte)
+void cpStdLib::DynamicBitset::addByte(unsigned char byte)
 {
 	unsigned char* tempArray = new unsigned char[this->arrayLength + 1];
 	memcpy(tempArray, this->array, this->arrayLength);
@@ -68,7 +68,7 @@ void DynamicBitset::addByte(unsigned char byte)
 	this->bitLength += 8;
 }
 
-void DynamicBitset::zeroOutArray()
+void cpStdLib::DynamicBitset::zeroOutArray()
 {
 	for(int i = 0; i < this->arrayLength; i++)
 	{
@@ -76,7 +76,7 @@ void DynamicBitset::zeroOutArray()
 	}
 }
 
-void DynamicBitset::zeroUpTo(unsigned int bitIndex)
+void cpStdLib::DynamicBitset::zeroUpTo(unsigned int bitIndex)
 {
 	unsigned int subArrayLength = (unsigned int)(bitIndex / 8);
 	unsigned int lastCharBitIndex = bitIndex - (subArrayLength * 8);
@@ -94,7 +94,7 @@ void DynamicBitset::zeroUpTo(unsigned int bitIndex)
 	
 }
 
-void DynamicBitset::operator++(int)
+void cpStdLib::DynamicBitset::operator++(int)
 {
 	unsigned int byteCount = 0;
 	unsigned int shiftAmount = 0;
@@ -139,7 +139,7 @@ DynamicBitset DynamicBitset::operator++(int)
 */
 
 
-bool DynamicBitset::operator[](unsigned int bitIndex)
+bool cpStdLib::DynamicBitset::operator[](unsigned int bitIndex)
 {
 	unsigned int arrayIndex = (unsigned int)(bitIndex / 8);
 	unsigned int shiftAmount = bitIndex - (arrayIndex) * 8;
@@ -151,7 +151,7 @@ bool DynamicBitset::operator[](unsigned int bitIndex)
 	return (bool)((this->array[arrayIndex] >> shiftAmount) & 1);
 }
 
-void DynamicBitset::printArray()
+void cpStdLib::DynamicBitset::printArray()
 {
 	for (int i = 0; i < this->arrayLength; i++)
 	{
