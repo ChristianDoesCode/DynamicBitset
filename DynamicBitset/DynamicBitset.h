@@ -20,7 +20,6 @@ public:
 	~DynamicBitset();
 
 	unsigned int getArrayLength();
-	unsigned char** getArray();
 
 	//function to add a byte to the bitset
 	void addByte(unsigned char byte);
