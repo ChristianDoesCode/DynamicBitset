@@ -8,13 +8,19 @@ private:
 	unsigned char* array;
 	unsigned int arrayLength;
 	unsigned int bitLength;
+	bool hasBeenCopied;
 
 public:
 	//Constructors
 	DynamicBitset();
 	DynamicBitset(unsigned int bitLength);
+	//Copy Constructor
+	DynamicBitset(DynamicBitset& originalBitset);
 	//Deconstructor
 	~DynamicBitset();
+
+	unsigned int getArrayLength();
+	unsigned char** getArray();
 
 	//function to add a byte to the bitset
 	void addByte(unsigned char byte);

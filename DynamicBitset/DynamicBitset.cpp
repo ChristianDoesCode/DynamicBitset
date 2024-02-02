@@ -20,18 +20,32 @@ DynamicBitset::DynamicBitset(unsigned int bitLength)
 		this->arrayLength = (int)(bitLength / 8) + 1;
 		this->array = new unsigned char[this->arrayLength];
 		this->bitLength = bitLength;
+		this->hasBeenCopied = false;
 	}
-	else
-	{
-		this->arrayLength = 0;
-		this->array = nullptr;
-		this->bitLength = 0;
-	}
+}
+
+DynamicBitset::DynamicBitset(DynamicBitset& originalBitset)
+{
+	delete[] this->array;
+
+	this->arrayLength = originalBitset.getArrayLength();
+
+	if()
 }
 
 DynamicBitset::~DynamicBitset()
 {
 	delete[] this->array;
+}
+
+unsigned int DynamicBitset::getArrayLength()
+{
+	return this->arrayLength;
+}
+
+unsigned char** DynamicBitset::getArray()
+{
+	
 }
 
 void DynamicBitset::addByte(unsigned char byte)
