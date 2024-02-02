@@ -28,9 +28,18 @@ DynamicBitset::DynamicBitset(DynamicBitset& originalBitset)
 {
 	delete[] this->array;
 
-	this->arrayLength = originalBitset.getArrayLength();
-
-	if()
+	this->arrayLength = originalBitset.arrayLength;
+	this->bitLength = originalBitset.bitLength;
+	
+	if(this->array == nullptr)
+	{
+		originalBitset.array = nullptr;
+	}
+	else
+	{
+		this->array = new unsigned char[this->arrayLength];
+		memcpy(this->array, originalBitset.array, this->arrayLength);
+	}
 }
 
 DynamicBitset::~DynamicBitset()
