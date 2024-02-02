@@ -3,7 +3,7 @@
 
 int main()
 {
-	DynamicBitset bitset;
+	cpStdLib::DynamicBitset bitset;
 
     unsigned char count = 255;
 
@@ -14,6 +14,10 @@ int main()
 	bitset++;
 	bitset++;
 	bitset++;
+
+	std::cout << bitset[0] << std::endl;
+
+	bitset.setBit(0, 1);
 	//bool bit = bitset[0];
 
 	//std::cout << bit << std::endl;

@@ -24,21 +24,25 @@ cpStdLib::DynamicBitset::DynamicBitset(unsigned int bitLength)
 	}
 }
 
-cpStdLib::DynamicBitset::DynamicBitset(DynamicBitset& originalBitset)
+cpStdLib::DynamicBitset::DynamicBitset(const DynamicBitset& originalBitset)
 {
 	delete[] this->array;
 
 	this->arrayLength = originalBitset.arrayLength;
 	this->bitLength = originalBitset.bitLength;
 	
-	if(this->array == nullptr)
+	if(originalBitset.array == nullptr)
 	{
-		originalBitset.array = nullptr;
+		this->array = nullptr;
 	}
 	else
 	{
 		this->array = new unsigned char[this->arrayLength];
-		memcpy(this->array, originalBitset.array, this->arrayLength);
+
+		for (int i = 0; i < this->arrayLength; i++)
+		{
+			this->array[i] = originalBitset.array[i];
+		}
 	}
 }
 
@@ -52,9 +56,18 @@ unsigned int cpStdLib::DynamicBitset::getArrayLength()
 	return this->arrayLength;
 }
 
-unsigned char** cpStdLib::DynamicBitset::getArray()
+void cpStdLib::DynamicBitset::setBit(unsigned int bitIndex, unsigned char bitValue)
 {
-	
+	if (bitValue > 1)
+	{
+		return;
+	}
+
+	unsigned int subArrayLength = (unsigned int)(bitIndex / 8);
+	unsigned char bitMask = 255 - bitValue * (1 << (bitIndex - subArrayLength * 8));
+	std::cout << "bitMask: " << (unsigned int) bitMask << std::endl;
+
+	this->array[subArrayLength] = this->array[subArrayLength] & bitMask;
 }
 
 void cpStdLib::DynamicBitset::addByte(unsigned char byte)
@@ -94,7 +107,7 @@ void cpStdLib::DynamicBitset::zeroUpTo(unsigned int bitIndex)
 	
 }
 
-void cpStdLib::DynamicBitset::operator++(int)
+cpStdLib::DynamicBitset& cpStdLib::DynamicBitset::operator++()
 {
 	unsigned int byteCount = 0;
 	unsigned int shiftAmount = 0;
@@ -115,9 +128,8 @@ void cpStdLib::DynamicBitset::operator++(int)
 			this->zeroOutArray();
 			std::cout << "This Ran!" << std::endl;
 			this->addByte(1);
-			return;
+			return *this;
 		}
-
 	}
 
 	unsigned int subArrayLength = (unsigned int)(bitIndex / 8);
@@ -127,16 +139,17 @@ void cpStdLib::DynamicBitset::operator++(int)
 	this->zeroUpTo(bitIndex);
 
 	this->array[subArrayLength] += (powerMask << lastCharBitIndex);
+	return *this;
 }
 
-/*
-DynamicBitset DynamicBitset::operator++(int)
+
+cpStdLib::DynamicBitset cpStdLib::DynamicBitset::operator++(int)
 {
-	DynamicBitset tmp(*this);
+	cpStdLib::DynamicBitset tmp(*this);
 	++(*this);
 	return tmp;
 }
-*/
+
 
 
 bool cpStdLib::DynamicBitset::operator[](unsigned int bitIndex)
